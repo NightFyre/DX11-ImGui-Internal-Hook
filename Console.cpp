@@ -38,6 +38,27 @@ namespace DX11_Base {
 		return;
 	}
 
+	void Console::LogEvent(std::string TEXT, bool FLAG)
+	{
+		std::string output;
+		std::string append;
+		int color;
+		switch (FLAG) {
+		case(TRUE):
+			output = " [ON]\n";
+			color = g_Console->color.green;
+			append = TEXT + output;
+			printdbg(append.c_str(), color);
+			break;
+		case(FALSE):
+			output = " [OFF]\n";
+			color = g_Console->color.red;
+			append = TEXT + output;
+			printdbg(append.c_str(), color);
+			break;
+		}
+	}
+
 	bool Console::writeFile(const char* Path, const char* Text, unsigned int Length, DWORD* out)
 	{
 		DWORD temp = 0;

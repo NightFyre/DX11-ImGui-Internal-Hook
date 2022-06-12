@@ -9,8 +9,11 @@ DWORD WINAPI MainThread()
 {
     using namespace DX11_Base;
     g_Console = std::make_unique<Console>();
+
+#if DEBUG
     g_Console->InitializeConsole("DX11 ImGui Base - Debug Console");
     g_Console->printdbg("DX11_Base ImGui Hook - Initializing . . .\n\n", g_Console->color.DEFAULT);
+#endif
 
     ///  ESTABLISH GAME DATA   
     g_GameData = std::make_unique<GameData>();
@@ -21,8 +24,11 @@ DWORD WINAPI MainThread()
     g_Hooking = std::make_unique<Hooking>();
     g_Menu = std::make_unique<Menu>();
     g_Hooking->Hook();
-    g_Console->printdbg("Main::Initialized\n", g_Console->color.green);
 
+#if DEBUG
+    g_Console->printdbg("Main::Initialized\n", g_Console->color.green);
+#endif
+    
     ///  RENDER LOOP
     g_Running = TRUE;
     while (g_Running)

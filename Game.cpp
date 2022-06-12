@@ -2,13 +2,17 @@
 namespace DX11_Base {
 	GameData::GameData()
 	{
+#if DEBUG
 		g_Console->printdbg("GameData::Initialized\n", g_Console->color.pink);
+#endif
 		return;
 	}
 
 	GameVariables::GameVariables()
 	{
+#if DEBUG
 		g_Console->printdbg("GameVariables::Initialized\n", g_Console->color.pink);
+#endif
 		return;
 	}
 
@@ -23,7 +27,6 @@ namespace DX11_Base {
 		GetWindowRect(g_GameWindow, &tempRECT);
 		g_GameWidth = tempRECT.right - tempRECT.left;
 		g_GameHeight = tempRECT.bottom - tempRECT.top;
-		//g_WindowSize{};
 
 		char tempTitle[MAX_PATH];
 		GetWindowTextA(g_GameWindow, tempTitle, sizeof(tempTitle));
@@ -36,6 +39,8 @@ namespace DX11_Base {
 		char tempPath[MAX_PATH];
 		GetModuleFileNameExA(g_GameHandle, NULL, tempPath, sizeof(tempPath));
 		g_GamePath = tempPath;
+#if DEBUG
 		g_Console->printdbg("GameData::Init - Process Window Info Established\n", g_Console->color.pink);
+#endif
 	}
 }
