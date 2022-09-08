@@ -155,11 +155,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Console.hpp" />
-    <ClInclude Include="D3D11Window.hpp" />
-    <ClInclude Include="helper.h" />
-    <ClInclude Include="Game.hpp" />
-    <ClInclude Include="Hooking.hpp" />
+    <ClInclude Include="include\Console.hpp" />
+    <ClInclude Include="include\D3D11Window.hpp" />
+    <ClInclude Include="include\Game.hpp" />
+    <ClInclude Include="include\helper.h" />
+    <ClInclude Include="include\Hooking.hpp" />
+    <ClInclude Include="include\Menu.hpp" />
+    <ClInclude Include="initialize.hpp" />
     <ClInclude Include="libs\ImGui\imconfig.h" />
     <ClInclude Include="libs\ImGui\imgui.h" />
     <ClInclude Include="libs\ImGui\imgui_impl_dx11.h" />
@@ -177,14 +179,9 @@
     <ClInclude Include="libs\MinHook\table32.h" />
     <ClInclude Include="libs\MinHook\table64.h" />
     <ClInclude Include="libs\MinHook\trampoline.h" />
-    <ClInclude Include="Menu.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Console.cpp" />
-    <ClCompile Include="D3D11Window.cpp" />
     <ClCompile Include="dllmain.cpp" />
-    <ClCompile Include="Game.cpp" />
-    <ClCompile Include="Hooking.cpp" />
     <ClCompile Include="libs\ImGui\imgui.cpp" />
     <ClCompile Include="libs\ImGui\imgui_demo.cpp" />
     <ClCompile Include="libs\ImGui\imgui_draw.cpp" />
@@ -197,7 +194,11 @@
     <ClCompile Include="libs\MinHook\hde64.c" />
     <ClCompile Include="libs\MinHook\hook.c" />
     <ClCompile Include="libs\MinHook\trampoline.c" />
-    <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="src\Console.cpp" />
+    <ClCompile Include="src\D3D11Window.cpp" />
+    <ClCompile Include="src\Game.cpp" />
+    <ClCompile Include="src\Hooking.cpp" />
+    <ClCompile Include="src\Menu.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
