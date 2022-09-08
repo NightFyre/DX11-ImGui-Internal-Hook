@@ -22,26 +22,14 @@
     <Filter Include="libs\MinHook">
       <UniqueIdentifier>{9c852eb8-8264-4f0b-bf86-9cb7c95de154}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Classes">
+      <UniqueIdentifier>{11ec7a4d-39ab-4ad0-88d3-5794a9aebcc3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Classes">
+      <UniqueIdentifier>{0d07ce2f-3ead-4e2c-8316-feb78de3c0fd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="helper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Console.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="D3D11Window.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Game.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Menu.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Hooking.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="libs\ImGui\imconfig.h">
       <Filter>libs\ImGui</Filter>
     </ClInclude>
@@ -93,24 +81,30 @@
     <ClInclude Include="libs\MinHook\trampoline.h">
       <Filter>libs\MinHook</Filter>
     </ClInclude>
+    <ClInclude Include="initialize.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Console.hpp">
+      <Filter>Header Files\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="include\D3D11Window.hpp">
+      <Filter>Header Files\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Game.hpp">
+      <Filter>Header Files\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Hooking.hpp">
+      <Filter>Header Files\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Menu.hpp">
+      <Filter>Header Files\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="include\helper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Console.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="D3D11Window.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Game.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Menu.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Hooking.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="libs\ImGui\imgui.cpp">
@@ -148,6 +142,21 @@
     </ClCompile>
     <ClCompile Include="libs\MinHook\trampoline.c">
       <Filter>libs\MinHook</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Console.cpp">
+      <Filter>Source Files\Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="src\D3D11Window.cpp">
+      <Filter>Source Files\Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game.cpp">
+      <Filter>Source Files\Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Hooking.cpp">
+      <Filter>Source Files\Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Menu.cpp">
+      <Filter>Source Files\Classes</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
