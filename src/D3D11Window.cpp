@@ -1,3 +1,4 @@
+#include "../pch.h"
 #include "../include/D3D11Window.hpp"
 
 IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);

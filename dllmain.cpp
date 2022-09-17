@@ -1,4 +1,5 @@
 #pragma once
+#include "pch.h"
 #include "initialize.hpp"
 
 extern DWORD WINAPI MainThread_Initialize();

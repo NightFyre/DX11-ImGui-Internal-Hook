@@ -1,3 +1,4 @@
+#include "../pch.h"
 #include "../include/Hooking.hpp"
 namespace DX11_Base {
 	Hooking::Hooking()

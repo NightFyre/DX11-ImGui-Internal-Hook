@@ -1,3 +1,4 @@
+#include "../pch.h"
 #include "../include/Game.hpp"
 namespace DX11_Base {
 	GameData::GameData()

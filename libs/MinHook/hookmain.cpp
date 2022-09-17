@@ -1,3 +1,4 @@
+#include "../../pch.h"
 #include "hookmain.h"
 #include <Windows.h>
 #include <assert.h>
