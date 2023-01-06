@@ -46,362 +46,187 @@ namespace DX11_Base {
     static int WeaponSubTab = 0;
     static int SelfSubTab = 0;
     namespace Tabs {
+
+        auto center = [](float avail_width, float element_width, float padding = 0)
+        {
+            ImGui::SameLine((avail_width / 2) - (element_width / 2) + padding);
+        };
+
+        auto center_text = [&](const char* format, float spacing = 15, ImColor color = ImColor(255, 255, 255)) {
+            center(ImGui::GetContentRegionAvail().x, ImGui::CalcTextSize(format).x);
+            ImGui::SetCursorPosY(ImGui::GetCursorPosY() + spacing);
+            ImGui::TextColored(color.Value, format);
+        };
+
+
+        float dbg_RAINBOW[] = { 1.f, 0.f, 0.f };
+
         void TABMain()
         {
+            ImGui::Spacing();
+            center_text("MAIN");
+            ImGui::Separator();
 
-            ImGui::BeginChild("##LeftSide", ImVec2(130, 300), true);
+            ImGui::Spacing();
+            ImGui::Spacing();
+            ImGui::Checkbox("Aim-Bot", &g_GameData->aimbot);
+            ImGui::SameLine();
+            ImGui::SetNextItemWidth(90);
+            ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 25);
+            ImGui::SliderFloat("Smoothing", &g_Menu->smoothing, 0.1f, 30.f);
+
+            ImGui::Checkbox("No-Recoil", &g_GameData->noRecoil);
+            if (g_GameData->noRecoil)
             {
-
-                ImGui::TextColored(ImColor(g_Menu->dbg_RAINBOW), "   Base Menu");
-                
                 ImGui::Spacing();
                 ImGui::Spacing();
                 ImGui::Spacing();
+                ImGui::SetNextItemWidth(90);
+                ImGui::SliderFloat("RCS-Amount", &g_Menu->rcsAmount, 0.f, 10.f);
+                ImGui::SliderInt("X-Amount", &g_Menu->rcsAmountY, 0, 10);
+                ImGui::SliderInt("Y-Amount", &g_Menu->rcsAmountX, 0, 10);
                 ImGui::Spacing();
-                ImGui::Spacing();
-                ImGui::Spacing();
-                ImGui::Spacing();
-                ImGui::Spacing();
-                ImGui::Spacing();
-                ImGui::Spacing();
-
-
-                if (ImGui::Button("Main", ImVec2(115, 25)))
-                    menutab = 0;
-
-                if (ImGui::Button("Visuals", ImVec2(115, 25)))
-                    menutab = 1;
-
-                if (ImGui::Button("Self", ImVec2(115, 25)))
-                    menutab = 2;
-
-                if (ImGui::Button("Settiings", ImVec2(115, 25)))
-                    menutab = 3;
-
-                ImGui::Spacing();
-                ImGui::Spacing();
-                ImGui::Spacing();
-                ImGui::Spacing();
-                ImGui::Spacing();
-                ImGui::Spacing();
-                ImGui::Spacing();
-                ImGui::Spacing();
-                ImGui::Spacing();
-                ImGui::Spacing();
-                ImGui::Spacing();
-                ImGui::Spacing();
-                ImGui::Spacing();
-
-                ImGui::TextColored(ImColor(g_Menu->dbg_RAINBOW), "Version   1.0.1");
-                ImGui::TextColored(ImColor(g_Menu->dbg_RAINBOW), "Made By   ~");
-
-                ImGui::EndChild();
             }
 
+            ImGui::Checkbox("Rapid-Fire", &g_GameData->rapid_fire);
+
+            ImGui::Checkbox("Unlimited-Ammo", &g_GameData->unlimited_ammo);
+
+            ImGui::Separator();
+            center_text("VISUALS");
+            ImGui::Separator();
+
+            ImGui::Spacing();
+            ImGui::Spacing();
+            ImGui::Checkbox("Crosshair", &g_Menu->drawCrosshair);
+            ImGui::SameLine();
+            auto CursorPosition = (ImGui::GetCursorPos().x + 30.f);
+            ImGui::SetCursorPosX(CursorPosition);
+            ImGui::ColorEdit3("##CrosshairColor", dbg_RAINBOW, ImGuiColorEditFlags_NoInputs);
+            ImGui::Checkbox("Fov", &g_Menu->drawFov);
+            ImGui::SameLine();
+            ImGui::SetCursorPosX(CursorPosition);
+            ImGui::ColorEdit3("##FovColor", dbg_RAINBOW, ImGuiColorEditFlags_NoInputs);
+            if (g_Menu->drawFov)
+                ImGui::Checkbox("Fov-Filled", &g_Menu->fovFilled);
+            ImGui::Checkbox("Box-Esp", &g_Menu->boxEsp);
+            ImGui::SameLine();
+            ImGui::SetCursorPosX(CursorPosition);
+            ImGui::ColorEdit3("##ESPCOLOR", dbg_RAINBOW, ImGuiColorEditFlags_NoInputs);
+            ImGui::SetNextItemWidth(100);
+            ImGui::SameLine();
+            ImGui::Combo("##STYLE", &g_Menu->espStyle, "2Dbox\0 3Dbox\00 Cornerfilled\000");
+            if (g_Menu->boxEsp)
             {
-                ImGui::SameLine(0);
-                ImGui::SeparatorEx(ImGuiSeparatorFlags_Vertical);
+                ImGui::Checkbox("Show-Names", &g_Menu->names);
                 ImGui::SameLine();
+                ImGui::SetCursorPosX(CursorPosition);
+                ImGui::Checkbox("Show-Distance", &g_Menu->playerDistance);
+                ImGui::Checkbox("Held-Item", &g_Menu->heldtItem);
+                ImGui::SameLine();
+                ImGui::SetCursorPosX(CursorPosition);
+                ImGui::Checkbox("Snap-Lines", &g_Menu->SnapLines);
+                ImGui::Checkbox("Show-Team", &g_Menu->ShowTeam);
+                ImGui::SameLine();
+                ImGui::SetCursorPosX(CursorPosition);
+                ImGui::Checkbox("Show-Bots", &g_Menu->Botesp);
             }
 
-            ImGui::BeginChild("##RightSide", ImVec2(ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y), true);
+            ImGui::Spacing();
+            ImGui::Spacing();
+            ImGui::Checkbox("World-Esp", &g_GameData->worldesp);
+            ImGui::SameLine();
+            ImGui::SetCursorPosX(CursorPosition);
+            ImGui::ColorEdit3("##WORLDESP", dbg_RAINBOW, ImGuiColorEditFlags_NoInputs);
+            if (g_GameData->worldesp)
             {
+                ImGui::Spacing();
+                ImGui::Spacing();
+                ImGui::Spacing();
+                ImGui::Checkbox("Distance", &g_Menu->lootDistance);
+                ImGui::SameLine();
+                ImGui::SetCursorPosX(CursorPosition);
+                ImGui::Checkbox("Weapon-Names", &g_Menu->showguns);
 
-                auto center = [](float avail_width, float element_width, float padding = 0)
-                {
-                    ImGui::SameLine((avail_width / 2) - (element_width / 2) + padding);
-                };
-
-                auto center_text = [&](const char* format, float spacing = 15, ImColor color = ImColor(255, 255, 255)) {
-                    center(ImGui::GetContentRegionAvail().x, ImGui::CalcTextSize(format).x);
-                    ImGui::SetCursorPosY(ImGui::GetCursorPosY() + spacing);
-                    ImGui::TextColored(color.Value, format);
-                };
-
-                //Header 1
-
-                //center_text(data.status.c_str(), 18, (data.undetected ? ImColor(0, 255, 0) : ImColor(255,0,0)));  **IS FOR LOADER**
-
-                float dbg_RAINBOW[] = { 1.f, 0.f, 0.f };
-
-                if (menutab == 0)
-                {
-                    ImGui::Text("Weapons");
-
-                    ImGui::Separator();
-
-                    ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 110);
-                    if (ImGui::Button("Main", ImVec2(85, 20)))
-                        WeaponSubTab = 0;
-                    ImGui::SameLine();
-                    if (ImGui::Button("Weapon", ImVec2(85, 20)))
-                        WeaponSubTab = 1;
+            }
 
 
-                    ImGui::Separator();
+            ImGui::Separator();
+            center_text("Self");
+            ImGui::Separator();
 
-                    if (WeaponSubTab == 0)
-                    {
-                        ImGui::Spacing();
-                        ImGui::Spacing();
-                        ImGui::Checkbox("Crosshair", &g_Menu->drawCrosshair);
-                        ImGui::SameLine();
-                        ImGui::ColorEdit3("##CrosshairColor", dbg_RAINBOW, ImGuiColorEditFlags_NoInputs);
-                        ImGui::Spacing();
-                        ImGui::Spacing();
-                        ImGui::Spacing();
-                        ImGui::Checkbox("Fov", &g_Menu->drawFov);
-                        ImGui::SameLine();
-                        ImGui::ColorEdit3("##FovColor", dbg_RAINBOW, ImGuiColorEditFlags_NoInputs);
-                        if (g_Menu->drawFov)
-                        {
-                            ImGui::Spacing();
-                            ImGui::Spacing();
-                            ImGui::Spacing();
-                            ImGui::Checkbox("Fov-Filled", &g_Menu->fovFilled);
-                        }
-                    }
-
-                    if (WeaponSubTab == 1)
-                    {
-                        ImGui::Spacing();
-                        ImGui::Spacing();
-                        ImGui::Checkbox("Aim-Bot", &g_GameData->aimbot);
-                        ImGui::SameLine();
-                        ImGui::SetNextItemWidth(90);
-                        ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 25);
-                        ImGui::SliderFloat("Smoothing", &g_Menu->smoothing, 0.1f, 30.f);
-                        if (g_GameData->aimbot)
-                        {
-                            ImGui::Spacing();
-                            ImGui::Spacing();
-                            ImGui::Spacing();
-                            ImGui::Checkbox("Silent-Aim", &g_GameData->aimbot);
+            ImGui::Spacing();
+            ImGui::Spacing();
+            ImGui::SetNextItemWidth(40);
+            if (ImGui::Button("UFO ON"))
+            {
+                //  [LOOPS] is supposed to prevent this
+                auto WORLD = reinterpret_cast<CG::UWorld**>(dwGameBase + g_GameData->offsets.oUWorld);                      if ((*WORLD) == nullptr) return;
+                auto GAME_STATE = (*WORLD)->GameState;                                                                      if ((GAME_STATE) == nullptr) return;
+                auto PERSISTENTLEVEL = (*WORLD)->PersistentLevel;                                                           if (PERSISTENTLEVEL == nullptr)  return;
+                auto LocalPlayer = (*WORLD)->OwningGameInstance->LocalPlayers[0];                                           if (LocalPlayer == nullptr) return;
+                auto Player_Controller = LocalPlayer->PlayerController;                                                     if (Player_Controller == nullptr) return;
+                auto Pawn = Player_Controller->AcknowledgedPawn;                                                            if (Pawn == nullptr)  return;
+                auto Root = Pawn->RootComponent;                                                                            if (Root == nullptr)  return;
+                ATaskForceCharacter* character = static_cast<ATaskForceCharacter*>(Pawn);                                   if (character == nullptr) return;
+                character->CharacterMovement->MovementMode = CG::EMovementMode::MOVE_Flying;
+            }
+            ImGui::SameLine();
+            if (ImGui::Button("UFO OFF"))
+            {
+                //  [LOOPS] is supposed to prevent this
+                auto WORLD = reinterpret_cast<CG::UWorld**>(dwGameBase + g_GameData->offsets.oUWorld);                      if ((*WORLD) == nullptr) return;
+                auto GAME_STATE = (*WORLD)->GameState;                                                                      if ((GAME_STATE) == nullptr) return;
+                auto PERSISTENTLEVEL = (*WORLD)->PersistentLevel;                                                           if (PERSISTENTLEVEL == nullptr)  return;
+                auto LocalPlayer = (*WORLD)->OwningGameInstance->LocalPlayers[0];                                           if (LocalPlayer == nullptr) return;
+                auto Player_Controller = LocalPlayer->PlayerController;                                                     if (Player_Controller == nullptr) return;
+                auto Pawn = Player_Controller->AcknowledgedPawn;                                                            if (Pawn == nullptr)  return;
+                auto Root = Pawn->RootComponent;                                                                            if (Root == nullptr)  return;
+                ATaskForceCharacter* character = static_cast<ATaskForceCharacter*>(Pawn);                                   if (character == nullptr) return;
+                auto Collision = Pawn->GetActorEnableCollision();
+                character->CharacterMovement->MovementMode = CG::EMovementMode::MOVE_Walking;
+            }
+            ImGui::Checkbox("No Collision", &g_GameData->godmode);
 
 
-                        }
+            if (ImGui::Button("Change Name"))
+            {
+                //  [LOOPS] is supposed to prevent this
+                auto WORLD = reinterpret_cast<CG::UWorld**>(dwGameBase + g_GameData->offsets.oUWorld);                      if ((*WORLD) == nullptr) return;
+                auto GAME_STATE = (*WORLD)->GameState;                                                                      if ((GAME_STATE) == nullptr) return;
+                auto PERSISTENTLEVEL = (*WORLD)->PersistentLevel;                                                           if (PERSISTENTLEVEL == nullptr)  return;
+                auto LocalPlayer = (*WORLD)->OwningGameInstance->LocalPlayers[0];                                           if (LocalPlayer == nullptr) return;
+                auto Player_Controller = LocalPlayer->PlayerController;                                                     if (Player_Controller == nullptr) return;
+                auto Pawn = Player_Controller->AcknowledgedPawn;                                                            if (Pawn == nullptr)  return;
+                ATaskForceCharacter* character = static_cast<ATaskForceCharacter*>(Pawn);                                   if (character == nullptr) return;
+                Player_Controller->SetName(L"IM JUST BETTER");      //  cringe dude
 
-                        ImGui::Spacing();
-                        ImGui::Spacing();
-                        ImGui::Spacing();
-                        ImGui::Checkbox("No-Recoil", &g_GameData->noRecoil);
-                        if (g_GameData->noRecoil)
-                        {
-                            ImGui::Spacing();
-                            ImGui::Spacing();
-                            ImGui::Spacing();
-                            ImGui::SetNextItemWidth(90);
-                            ImGui::SliderFloat("RCS-Amount", &g_Menu->rcsAmount, 0.f, 10.f);
-                            ImGui::SliderInt("X-Amount", &g_Menu->rcsAmountY, 0, 10);
-                            ImGui::SliderInt("Y-Amount", &g_Menu->rcsAmountX, 0, 10);
-                            ImGui::Spacing();
-                        }
-                        ImGui::Spacing();
-                        ImGui::Spacing();
-                        ImGui::Spacing();
-                        ImGui::Checkbox("Rapid-Fire", &g_GameData->rapid_fire);
+            }
+            ImGui::SliderFloat(("##FOVAMOUNT"), &g_GameData->customFov_Amount, 70.f, 130.f);
+            ImGui::SameLine();
+            ImGui::SetNextItemWidth(40);
+            if (ImGui::Button("Set Fov"))
+            {
+                //  [LOOPS] is supposed to prevent this
+                auto WORLD = reinterpret_cast<CG::UWorld**>(dwGameBase + g_GameData->offsets.oUWorld);                      if ((*WORLD) == nullptr) return;
+                auto GAME_STATE = (*WORLD)->GameState;                                                                      if ((GAME_STATE) == nullptr) return;
+                auto PERSISTENTLEVEL = (*WORLD)->PersistentLevel;                                                           if (PERSISTENTLEVEL == nullptr)  return;
+                auto LocalPlayer = (*WORLD)->OwningGameInstance->LocalPlayers[0];                                           if (LocalPlayer == nullptr) return;
+                auto* Player_Controller = LocalPlayer->PlayerController;                                                    if (Player_Controller == nullptr) return;
+                Player_Controller->FOV(g_GameData->customFov_Amount);
+            }
+        }
 
-                        ImGui::Spacing();
-                        ImGui::Spacing();
-                        ImGui::Spacing();
-                        ImGui::Checkbox("Unlimited-Ammo", &g_GameData->unlimited_ammo);
-                    }
-                }
-
-
-
-                if (menutab == 1)
-                {
-                    center_text("Visuals");
-
-
-                    ImGui::Separator();
-
-                    ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 80);
-                    if (ImGui::Button("Player", ImVec2(85, 20)))
-                        VisualSubTab = 0;
-                    ImGui::SameLine();
-                    if (ImGui::Button("World", ImVec2(85, 20)))
-                        VisualSubTab = 1;
-                    ImGui::SameLine();
-                    if (ImGui::Button("Chams", ImVec2(85, 20)))
-                        VisualSubTab = 2;
-                    ImGui::Separator();
-
-                    if (VisualSubTab == 0) //Player
-                    {
-                        ImGui::Spacing();
-                        ImGui::Spacing();
-                        ImGui::Checkbox("Box-Esp", &g_Menu->boxEsp);
-                        ImGui::SameLine();
-                        ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 30);
-                        ImGui::ColorEdit3("##ESPCOLOR", dbg_RAINBOW, ImGuiColorEditFlags_NoInputs);
-                        ImGui::SetNextItemWidth(100);
-                        ImGui::SameLine();
-                        ImGui::Combo("##STYLE", &g_Menu->espStyle, "2Dbox\0 3Dbox\00 Cornerfilled\000");
-                        if (g_Menu->boxEsp)
-                        {
-                            ImGui::Spacing();
-                            ImGui::Spacing();
-                            ImGui::Spacing();
-                            ImGui::Checkbox("Show-Names", &g_Menu->names);
-                            ImGui::SameLine();
-                            ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 9);
-                            ImGui::Checkbox("Show-Distance", &g_Menu->playerDistance);
-                            ImGui::Spacing();
-                            ImGui::Spacing();
-                            ImGui::Spacing();
-                            ImGui::Checkbox("Held-Item", &g_Menu->heldtItem);
-                            ImGui::SameLine();
-                            ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 15);
-                            ImGui::Checkbox("Snap-Lines", &g_Menu->SnapLines);
-                            ImGui::Spacing();
-                            ImGui::Spacing();
-                            ImGui::Spacing();
-                            ImGui::Checkbox("Show-Team", &g_Menu->ShowTeam);
-                            ImGui::SameLine();
-                            ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 15);
-                            ImGui::Checkbox("Show-Bots", &g_Menu->Botesp);
-
-
-                        }
-                    }
-
-                    if (VisualSubTab == 1) //World
-                    {
-                        ImGui::Spacing();
-                        ImGui::Spacing();
-                        ImGui::Checkbox("World-Esp", &g_GameData->worldesp);
-                        ImGui::SameLine();
-                        ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 15);
-                        ImGui::ColorEdit3("##WORLDESP", dbg_RAINBOW, ImGuiColorEditFlags_NoInputs);
-                        if (g_GameData->worldesp)
-                        {
-                            ImGui::Spacing();
-                            ImGui::Spacing();
-                            ImGui::Spacing();
-                            ImGui::Checkbox("Distance", &g_Menu->lootDistance);
-                            ImGui::SameLine();
-                            ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 21);
-                            ImGui::Checkbox("Weapon-Names", &g_Menu->showguns);
-
-                        }
-                    }
-
-                    if (VisualSubTab == 2) //Misc
-                    {
-                        ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 150);
-                        ImGui::Text("!!COMING SOON!!");
-                    }
-
-                }
-
-                if (menutab == 2)
-                {
-                    center_text("Self");
-                    ImGui::Separator();
-
-                    ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 110);
-                    if (ImGui::Button("Movement", ImVec2(85, 20)))
-                        SelfSubTab = 0;
-                    ImGui::SameLine();
-                    if (ImGui::Button("Misc", ImVec2(85, 20)))
-                        SelfSubTab = 1;
-
-
-                    ImGui::Separator();
-
-                    if (SelfSubTab == 0) //mOVEMENT
-                    {
-                        ImGui::Spacing();
-                        ImGui::Spacing();
-                        ImGui::SetNextItemWidth(40);
-                        if (ImGui::Button("UFO ON"))
-                        {
-                            //  [LOOPS] is supposed to prevent this
-                            auto WORLD = reinterpret_cast<CG::UWorld**>(dwGameBase + g_GameData->offsets.oUWorld);                      if ((*WORLD) == nullptr) return;
-                            auto GAME_STATE = (*WORLD)->GameState;                                                                      if ((GAME_STATE) == nullptr) return;
-                            auto PERSISTENTLEVEL = (*WORLD)->PersistentLevel;                                                           if (PERSISTENTLEVEL == nullptr)  return;
-                            auto LocalPlayer = (*WORLD)->OwningGameInstance->LocalPlayers[0];                                           if (LocalPlayer == nullptr) return;
-                            auto Player_Controller = LocalPlayer->PlayerController;                                                     if (Player_Controller == nullptr) return;
-                            auto Pawn = Player_Controller->AcknowledgedPawn;                                                            if (Pawn == nullptr)  return;
-                            auto Root = Pawn->RootComponent;                                                                            if (Root == nullptr)  return;
-                            ATaskForceCharacter* character = static_cast<ATaskForceCharacter*>(Pawn);                                   if (character == nullptr) return;
-                            character->CharacterMovement->MovementMode = CG::EMovementMode::MOVE_Flying;
-                        }
-                        ImGui::SameLine();
-                        if (ImGui::Button("UFO OFF"))
-                        {
-                            //  [LOOPS] is supposed to prevent this
-                            auto WORLD = reinterpret_cast<CG::UWorld**>(dwGameBase + g_GameData->offsets.oUWorld);                      if ((*WORLD) == nullptr) return;
-                            auto GAME_STATE = (*WORLD)->GameState;                                                                      if ((GAME_STATE) == nullptr) return;
-                            auto PERSISTENTLEVEL = (*WORLD)->PersistentLevel;                                                           if (PERSISTENTLEVEL == nullptr)  return;
-                            auto LocalPlayer = (*WORLD)->OwningGameInstance->LocalPlayers[0];                                           if (LocalPlayer == nullptr) return;
-                            auto Player_Controller = LocalPlayer->PlayerController;                                                     if (Player_Controller == nullptr) return;
-                            auto Pawn = Player_Controller->AcknowledgedPawn;                                                            if (Pawn == nullptr)  return;
-                            auto Root = Pawn->RootComponent;                                                                            if (Root == nullptr)  return;
-                            ATaskForceCharacter* character = static_cast<ATaskForceCharacter*>(Pawn);                                   if (character == nullptr) return;
-                            auto Collision = Pawn->GetActorEnableCollision();
-                            character->CharacterMovement->MovementMode = CG::EMovementMode::MOVE_Walking;
-                        }
-                        ImGui::Spacing();
-                        ImGui::Spacing();
-                        ImGui::Spacing();
-                        ImGui::Checkbox("No Collision", &g_GameData->godmode);
-                    }
-
-                    if (SelfSubTab == 1) //MISC
-                    {
-                        ImGui::Spacing();
-                        ImGui::Spacing();
-                        if (ImGui::Button("Change Name"))
-                        {
-                            //  [LOOPS] is supposed to prevent this
-                            auto WORLD = reinterpret_cast<CG::UWorld**>(dwGameBase + g_GameData->offsets.oUWorld);                      if ((*WORLD) == nullptr) return;
-                            auto GAME_STATE = (*WORLD)->GameState;                                                                      if ((GAME_STATE) == nullptr) return;
-                            auto PERSISTENTLEVEL = (*WORLD)->PersistentLevel;                                                           if (PERSISTENTLEVEL == nullptr)  return;
-                            auto LocalPlayer = (*WORLD)->OwningGameInstance->LocalPlayers[0];                                           if (LocalPlayer == nullptr) return;
-                            auto Player_Controller = LocalPlayer->PlayerController;                                                     if (Player_Controller == nullptr) return;
-                            auto Pawn = Player_Controller->AcknowledgedPawn;                                                            if (Pawn == nullptr)  return;
-                            ATaskForceCharacter* character = static_cast<ATaskForceCharacter*>(Pawn);                                   if (character == nullptr) return;
-                            Player_Controller->SetName(L"IM JUST BETTER");      //  cringe dude
-
-                        }
-                        ImGui::SliderFloat(("##FOVAMOUNT"), &g_GameData->customFov_Amount, 70.f, 130.f);
-                        ImGui::SameLine();
-                        ImGui::SetNextItemWidth(40);
-                        if (ImGui::Button("Set Fov"))
-                        {
-                            //  [LOOPS] is supposed to prevent this
-                            auto WORLD = reinterpret_cast<CG::UWorld**>(dwGameBase + g_GameData->offsets.oUWorld);                      if ((*WORLD) == nullptr) return;
-                            auto GAME_STATE = (*WORLD)->GameState;                                                                      if ((GAME_STATE) == nullptr) return;
-                            auto PERSISTENTLEVEL = (*WORLD)->PersistentLevel;                                                           if (PERSISTENTLEVEL == nullptr)  return;
-                            auto LocalPlayer = (*WORLD)->OwningGameInstance->LocalPlayers[0];                                           if (LocalPlayer == nullptr) return;
-                            auto* Player_Controller = LocalPlayer->PlayerController;                                                    if (Player_Controller == nullptr) return;
-                            Player_Controller->FOV(g_GameData->customFov_Amount);
-                        }
-                    }
-
-                }
-
-                if (menutab == 3)
-                {
-                    center_text("Settings");
-                    ImGui::Separator();
-                    ImGui::Spacing();
-
-
-
-                    if (ImGui::Button("UNHOOK DLL", ImVec2(ImGui::GetWindowContentRegionWidth() - 3, 20))) {
+        void TABsettings()
+        {
+            center_text("Settings");
+            ImGui::Separator();
+            ImGui::Spacing();
+            if (ImGui::Button("UNHOOK DLL", ImVec2(ImGui::GetWindowContentRegionWidth() - 3, 20))) {
 #if DEBUG
-                        g_Console->printdbg("\n\n[+] UNHOOK INITIALIZED [+]\n\n", g_Console->color.red);
+                g_Console->printdbg("\n\n[+] UNHOOK INITIALIZED [+]\n\n", g_Console->color.red);
 #endif
-                        g_KillSwitch = TRUE;
-                    }
-
-                }
-
-                ImGui::EndChild();
+                g_KillSwitch = TRUE;
             }
         }
     }
@@ -461,19 +286,20 @@ namespace DX11_Base {
         }
 
         //  Display Menu Content
-        Tabs::TABMain();
-
-        //  I like to use tabs to display my content in an organized manner, Here is an example on how you could do the same
-        //  As a courtesy I have left the TABS namespace with an Example Tab
-        //if (ImGui::BeginTabBar("##tabs", ImGuiTabBarFlags_None))
-        //{
-        //    if (ImGui::BeginTabItem("MAIN"))
-        //    {
-        //        Tabs::TABMain();
-        //        ImGui::EndTabItem();
-        //    }
-        //    ImGui::EndTabBar();
-        //}
+        if (ImGui::BeginTabBar("##tabs", ImGuiTabBarFlags_None))
+        {
+            if (ImGui::BeginTabItem("MAIN"))
+            {
+                Tabs::TABMain();
+                ImGui::EndTabItem();
+            }
+            if (ImGui::BeginTabItem("SETTINGS"))
+            {
+                Tabs::TABsettings();
+                ImGui::EndTabItem();
+            }
+            ImGui::EndTabBar();
+        }
         ImGui::End();
     }
 
@@ -580,11 +406,6 @@ namespace DX11_Base {
                 if (Current_Actor == nullptr) continue;
                 if (Current_Actor->RootComponent == nullptr) continue;
 
-                //  So kizzy, what happens if you have BOTH toggled?
-                //  Some objects will get skipped :)
-                //  I will refactor this sloppy code in my next update
-                //  This is not at all how i showed you to loop.
-
                 if (g_GameData->worldesp)
                 {
                     auto weapon_552 = Current_Actor->IsA(ABP_Weapon_552_C::StaticClass());      //552
@@ -614,9 +435,7 @@ namespace DX11_Base {
                     auto weapon_M18 = Current_Actor->IsA(ABP_Weapon_M18_C::StaticClass()); //m18 grenade
                     auto weapon_M67 = Current_Actor->IsA(ABP_Weapon_M67_C::StaticClass());//UMP
                     if (!(weapon_M67 || weapon_M18))
-                    {
                         continue;    // Do something
-                    }
 
                     CG::FVector2D screen;
                     if (Player_Controller->ProjectWorldLocationToScreen(Current_Actor->RootComponent->RelativeLocation, &screen, false))
