@@ -43,7 +43,7 @@ namespace DX11_Base {
             ImGui::Separator();
             ImGui::Spacing();
 
-            if (ImGui::Button("UNHOOK DLL", ImVec2(ImGui::GetWindowContentRegionWidth() - 3, 20))) {
+            if (ImGui::Button("UNHOOK DLL", ImVec2(ImGui::GetContentRegionAvail().x, 20))) {
 #if DEBUG
                 g_Console->printdbg("\n\n[+] UNHOOK INITIALIZED [+]\n\n", g_Console->color.red);
 #endif
