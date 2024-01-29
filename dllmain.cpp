@@ -5,7 +5,6 @@
 extern DWORD WINAPI MainThread_Initialize();
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD  dwCallReason, LPVOID lpReserved)
 {
-    using namespace DX11_Base;
     g_hModule = hModule;
 
     switch (dwCallReason) {

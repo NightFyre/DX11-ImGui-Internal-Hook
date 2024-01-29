@@ -208,6 +208,10 @@ namespace DX11_Base {
 			ImGui::GetIO().ImeWindowHandle = g_GameVariables->g_GameWindow;
 			m_OldWndProc = (WNDPROC)SetWindowLongPtr(g_GameVariables->g_GameWindow, GWLP_WNDPROC, (__int3264)(LONG_PTR)WndProc);
 			b_ImGui_Initialized = TRUE;
+
+			//	Obtain ImGui pointers
+			pImGui = GImGui;
+			pViewport = pImGui->Viewports[0];
 #if DEBUG
 			g_Console->printdbg("D3D11Window::Swapchain Initialized\n", g_Console->color.pink);
 #endif

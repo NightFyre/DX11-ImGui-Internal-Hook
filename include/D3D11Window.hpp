@@ -24,7 +24,9 @@ namespace DX11_Base {
 
 		bool m_Init{};
 		bool b_ImGui_Initialized{};
-		WNDPROC m_OldWndProc{};
+		WNDPROC m_OldWndProc{};		
+		ImGuiContext* pImGui;
+		ImGuiViewport* pViewport;
 
 		//	Forward Dx11 Hook Declarations
 		bool Init(IDXGISwapChain* swapChain);

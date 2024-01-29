@@ -39,11 +39,16 @@ DWORD WINAPI MainThread_Initialize()
 #endif
 
     std::thread WCMUpdate(ClientBGThread);	//	Initialize Loops Thread
+
     ///  RENDER LOOP
     g_Running = TRUE;
     while (g_Running)
     {
-        if (GetAsyncKeyState(VK_INSERT) & 1) g_GameVariables->m_ShowMenu = !g_GameVariables->m_ShowMenu;
+        if (GetAsyncKeyState(VK_INSERT) & 1)
+        {
+            g_GameVariables->m_ShowMenu = !g_GameVariables->m_ShowMenu;         //  Main Menu Window
+            g_GameVariables->m_ShowHud = !g_GameVariables->m_ShowMenu;          //  Render Window
+        }
     }
 
     ///  EXIT

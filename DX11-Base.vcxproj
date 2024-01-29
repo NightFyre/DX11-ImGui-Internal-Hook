@@ -165,6 +165,7 @@
     <ClInclude Include="include\helper.h" />
     <ClInclude Include="include\Hooking.hpp" />
     <ClInclude Include="include\Menu.hpp" />
+    <ClInclude Include="initialize.hpp" />
     <ClInclude Include="libs\ImGui\imconfig.h" />
     <ClInclude Include="libs\ImGui\imgui.h" />
     <ClInclude Include="libs\ImGui\imgui_impl_dx11.h" />
