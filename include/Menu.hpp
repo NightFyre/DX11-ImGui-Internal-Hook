@@ -6,12 +6,18 @@ namespace DX11_Base {
 	class Menu
 	{
 	public:
-		ImColor dbg_RAINBOW{};				//	RAINBOW THEME COLORS
-		bool dbg_RAINBOW_THEME = FALSE;		//	RAINBOW THEME BOOLEAN
-		float sOpacity = 0.80;				//	Opacity for SunShade Window
-		bool dbg_ALERTS = TRUE;
+		bool b_ShowMenu{ false };
+		bool b_ShowHud{ false };
+		bool b_ShowDemoWindow{ false };
+		bool b_ShowStyleEditor{ false };
 
-		//	INITIALIZE CLASS
+	public:
+		void Draw();
+		void MainMenu();
+		void HUD(bool* p_open);
+		void Loops();
+
+	public:
 		Menu()  noexcept = default;
 		~Menu() noexcept = default;
 		Menu(Menu const&) = delete;
@@ -19,14 +25,24 @@ namespace DX11_Base {
 		Menu& operator=(Menu const&) = delete;
 		Menu& operator=(Menu&&) = delete;
 
-		//	FORWARD DECLARE FUNCTIONS
-		void Draw();
-		void MainMenu();
-		void HUD(bool* p_open);
-		void Loops();
-
 	private:
 		bool m_StyleInit{};
 	};
 	inline std::unique_ptr<Menu> g_Menu;
+
+	class GUI
+	{
+	public:
+		//	WIDGETS
+		static void TextCentered(const char* pText);
+		static void TextCenteredf(const char* pText, ...);
+
+	public:
+		//	CANVAS
+		static void DrawText_(ImVec2 pos, ImColor color, const char* pText, float fontSize);
+		static void DrawTextf(ImVec2 pos, ImColor color, const char* pText, float fontSize, ...);
+		static void DrawTextCentered(ImVec2 pos, ImColor color, const char* pText, float fontsize);
+		static void DrawTextCenteredf(ImVec2 pos, ImColor color, const char* pText, float fontsize, ...);
+	};
+
 }

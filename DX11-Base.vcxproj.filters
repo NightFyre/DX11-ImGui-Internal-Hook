@@ -48,30 +48,6 @@
     <ClInclude Include="include\Menu.hpp">
       <Filter>Header Files\Class</Filter>
     </ClInclude>
-    <ClInclude Include="libs\ImGui\imconfig.h">
-      <Filter>Resource Files\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="libs\ImGui\imgui.h">
-      <Filter>Resource Files\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="libs\ImGui\imgui_impl_dx11.h">
-      <Filter>Resource Files\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="libs\ImGui\imgui_impl_win32.h">
-      <Filter>Resource Files\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="libs\ImGui\imgui_internal.h">
-      <Filter>Resource Files\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="libs\ImGui\imstb_rectpack.h">
-      <Filter>Resource Files\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="libs\ImGui\imstb_textedit.h">
-      <Filter>Resource Files\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="libs\ImGui\imstb_truetype.h">
-      <Filter>Resource Files\ImGui</Filter>
-    </ClInclude>
     <ClInclude Include="libs\MinHook\buffer.h">
       <Filter>Resource Files\MinHook</Filter>
     </ClInclude>
@@ -105,6 +81,9 @@
     <ClInclude Include="libs\MinHook\trampoline.h">
       <Filter>Resource Files\MinHook</Filter>
     </ClInclude>
+    <ClInclude Include="initialize.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -128,8 +107,23 @@
     <ClCompile Include="src\Menu.cpp">
       <Filter>Source Files\Class</Filter>
     </ClCompile>
-    <ClCompile Include="libs\ImGui\imgui.cpp">
-      <Filter>Resource Files\ImGui</Filter>
+    <ClCompile Include="libs\MinHook\buffer.c">
+      <Filter>Resource Files\MinHook</Filter>
+    </ClCompile>
+    <ClCompile Include="libs\MinHook\hde32.c">
+      <Filter>Resource Files\MinHook</Filter>
+    </ClCompile>
+    <ClCompile Include="libs\MinHook\hde64.c">
+      <Filter>Resource Files\MinHook</Filter>
+    </ClCompile>
+    <ClCompile Include="libs\MinHook\hook.c">
+      <Filter>Resource Files\MinHook</Filter>
+    </ClCompile>
+    <ClCompile Include="libs\MinHook\hookmain.cpp">
+      <Filter>Resource Files\MinHook</Filter>
+    </ClCompile>
+    <ClCompile Include="libs\MinHook\trampoline.c">
+      <Filter>Resource Files\MinHook</Filter>
     </ClCompile>
     <ClCompile Include="libs\ImGui\imgui_demo.cpp">
       <Filter>Resource Files\ImGui</Filter>
@@ -149,23 +143,8 @@
     <ClCompile Include="libs\ImGui\imgui_widgets.cpp">
       <Filter>Resource Files\ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="libs\MinHook\buffer.c">
-      <Filter>Resource Files\MinHook</Filter>
-    </ClCompile>
-    <ClCompile Include="libs\MinHook\hde32.c">
-      <Filter>Resource Files\MinHook</Filter>
-    </ClCompile>
-    <ClCompile Include="libs\MinHook\hde64.c">
-      <Filter>Resource Files\MinHook</Filter>
-    </ClCompile>
-    <ClCompile Include="libs\MinHook\hook.c">
-      <Filter>Resource Files\MinHook</Filter>
-    </ClCompile>
-    <ClCompile Include="libs\MinHook\hookmain.cpp">
-      <Filter>Resource Files\MinHook</Filter>
-    </ClCompile>
-    <ClCompile Include="libs\MinHook\trampoline.c">
-      <Filter>Resource Files\MinHook</Filter>
+    <ClCompile Include="libs\ImGui\imgui.cpp">
+      <Filter>Resource Files\ImGui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

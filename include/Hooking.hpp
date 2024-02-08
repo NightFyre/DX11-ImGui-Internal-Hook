@@ -8,7 +8,10 @@ namespace DX11_Base {
 	class Hooking
 	{
 	public:
+		void						Hook();
+		void						Unhook();
 
+	public:
 		explicit Hooking();
 		~Hooking() noexcept;
 		Hooking(Hooking const&) = delete;
@@ -16,8 +19,6 @@ namespace DX11_Base {
 		Hooking& operator=(Hooking const&) = delete;
 		Hooking& operator=(Hooking&&) = delete;
 
-		void Hook();
-		void Unhook();
 	};
 	inline std::unique_ptr<Hooking> g_Hooking;
 }
