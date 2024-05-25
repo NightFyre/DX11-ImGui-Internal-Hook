@@ -10,17 +10,23 @@ namespace DX11_Base
 
 	class D3D11Window
 	{
-		typedef HRESULT(APIENTRY* IDXGISwapChainPresent)(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags);
+		enum DXGI : int
+		{
+			IDXGI_PRESENT = 8,
+			IDXGI_DRAW_INDEXED = 12,
+			IDXGI_RESIZE_BUFFERS = 13,
+		};
+
+		typedef HRESULT(WINAPI* IDXGISwapChainPresent)(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags);
 		IDXGISwapChainPresent oIDXGISwapChainPresent = NULL;
 
-		typedef void(APIENTRY* ID3D11DrawIndexed)(ID3D11DeviceContext* pContext, UINT IndexCount, UINT StartIndexLocation, INT BaseVertexLocation);
-		ID3D11DrawIndexed oID3D11DrawIndexed = NULL;
-
+		typedef HRESULT(WINAPI* ResizeBuffers)(IDXGISwapChain*, UINT, UINT, UINT, DXGI_FORMAT, UINT);
+		ResizeBuffers oIDXGIResizeBuffers = NULL;
 
 	public:
 		//	Forward Dx11 Hook Declarations
 		static HRESULT APIENTRY HookPresent(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags);
-		static void APIENTRY MJDrawIndexed(ID3D11DeviceContext* pContext, UINT IndexCount, UINT StartIndexLocation, INT BaseVertexLocation);
+		static HRESULT WINAPI hkResizeBuffers(IDXGISwapChain*, UINT, UINT, UINT, DXGI_FORMAT, UINT);
 		static LRESULT APIENTRY WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 		
 	public:
@@ -49,18 +55,14 @@ namespace DX11_Base
 	public:
 		explicit D3D11Window();
 		~D3D11Window() noexcept;
-		D3D11Window(D3D11Window const&) = delete;
-		D3D11Window(D3D11Window&&) = delete;
-		D3D11Window& operator=(D3D11Window const&) = delete;
-		D3D11Window& operator=(D3D11Window&&) = delete;
 
 	private:
 		WNDCLASSEX WindowClass;
 		HWND WindowHwnd;
-
 		ID3D11Device* m_Device{};
 		ID3D11DeviceContext* m_DeviceContext{};
 		ID3D11RenderTargetView* m_RenderTargetView{};
+		IDXGISwapChain* m_pSwapChain{};
 	};
 	inline std::unique_ptr<D3D11Window> g_D3D11Window;
 }

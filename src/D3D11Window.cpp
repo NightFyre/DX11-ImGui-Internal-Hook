@@ -26,16 +26,44 @@ namespace DX11_Base
 		return g_D3D11Window->oIDXGISwapChainPresent(pSwapChain, SyncInterval, Flags);
 	}
 
-	void APIENTRY D3D11Window::MJDrawIndexed(ID3D11DeviceContext* pContext, UINT IndexCount, UINT StartIndexLocation, INT BaseVertexLocation) { return; }
+	//-----------------------------------------------------------------------------------
+	//  
+	HRESULT APIENTRY D3D11Window::hkResizeBuffers(IDXGISwapChain* p, UINT bufferCount, UINT Width, UINT Height, DXGI_FORMAT fmt, UINT scFlags)
+	{
+		//  Get new data & release render target
+		g_D3D11Window->m_pSwapChain = p;
+		g_D3D11Window->m_RenderTargetView->Release();
+		g_D3D11Window->m_RenderTargetView = nullptr;
+
+		//  get fn result
+		HRESULT result = g_D3D11Window->oIDXGIResizeBuffers(p, bufferCount, Width, Height, fmt, scFlags);
+
+		// Get new render target
+		ID3D11Texture2D* backBuffer;
+		p->GetBuffer(0, __uuidof(ID3D11Texture2D*), (LPVOID*)&backBuffer);
+		if (backBuffer)
+		{
+			g_D3D11Window->m_Device->CreateRenderTargetView(backBuffer, 0, &g_D3D11Window->m_RenderTargetView);
+			backBuffer->Release();
+		}
+
+		//  Reset ImGui 
+		if (g_D3D11Window->b_ImGui_Initialized)
+		{
+			ImGuiIO& io = ImGui::GetIO();
+			io.DisplaySize = ImVec2(static_cast<float>(Width), static_cast<float>(Height));
+		}
+
+		return result;
+	}
 
 
 	bool D3D11Window::HookD3D()
 	{
 		if (GetD3DContext())
 		{
-			CreateHook(8, (void**)&oIDXGISwapChainPresent, HookPresent);
-			CreateHook(12, (void**)&oID3D11DrawIndexed, MJDrawIndexed);
-			Sleep(1000);
+			CreateHook(D3D11Window::DXGI::IDXGI_PRESENT, (void**)&oIDXGISwapChainPresent, HookPresent);
+			CreateHook(D3D11Window::DXGI::IDXGI_RESIZE_BUFFERS, (void**)&oIDXGIResizeBuffers, hkResizeBuffers);
 #if CONSOLE_OUTPUT
 			g_Console->printdbg("[+][D3D11Window::Hook] Initialized\n", Console::Colors::green);
 #endif
@@ -51,9 +79,8 @@ namespace DX11_Base
 	{
 		assert(Index >= 0 && Original != NULL && Function != NULL);
 		void* target = (void*)MethodsTable[Index];
-		if (MH_CreateHook(target, Function, Original) != MH_OK || MH_EnableHook(target) != MH_OK) {
+		if (MH_CreateHook(target, Function, Original) != MH_OK || MH_EnableHook(target) != MH_OK)
 			return FALSE;
-		}
 		return TRUE;
 	}
 
@@ -187,6 +214,7 @@ namespace DX11_Base
 			ImGui::GetIO().ImeWindowHandle = g_GameData->pHwnd;
 			m_OldWndProc = (WNDPROC)SetWindowLongPtr(g_GameData->pHwnd, GWLP_WNDPROC, (__int3264)(LONG_PTR)WndProc);
 			b_ImGui_Initialized = true;
+			m_pSwapChain = swapChain;
 
 			//	Obtain ImGui pointers
 			pImGui = GImGui;
@@ -233,8 +261,8 @@ namespace DX11_Base
 
 	void D3D11Window::DisableAll()
 	{
-		DisableHook(8);
-		DisableHook(12);
+		DisableHook(D3D11Window::DXGI::IDXGI_PRESENT);
+		DisableHook(D3D11Window::DXGI::IDXGI_RESIZE_BUFFERS);
 		free(MethodsTable);
 		MethodsTable = NULL;
 	}
