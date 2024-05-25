@@ -1,34 +1,19 @@
 #pragma once
 #include "helper.h"
-#include "Game.hpp"
-#include "D3D11Window.hpp"
-namespace DX11_Base {
+namespace DX11Base 
+{
 	class Menu
 	{
 	public:
-		bool b_ShowMenu{ false };
-		bool b_ShowHud{ false };
-		bool b_ShowDemoWindow{ false };
-		bool b_ShowStyleEditor{ false };
+		static void Draw();
+		static void MainMenu();
+		static void HUD();
+		static void Loops();
 
-	public:
-		void Draw();
-		void MainMenu();
-		void HUD(bool* p_open);
-		void Loops();
-
-	public:
+		//	constructor
 		Menu()  noexcept = default;
 		~Menu() noexcept = default;
-		Menu(Menu const&) = delete;
-		Menu(Menu&&) = delete;
-		Menu& operator=(Menu const&) = delete;
-		Menu& operator=(Menu&&) = delete;
-
-	private:
-		bool m_StyleInit{};
 	};
-	inline std::unique_ptr<Menu> g_Menu;
 
 	class GUI
 	{
@@ -44,5 +29,4 @@ namespace DX11_Base {
 		static void DrawTextCentered(ImVec2 pos, ImColor color, const char* pText, float fontsize);
 		static void DrawTextCenteredf(ImVec2 pos, ImColor color, const char* pText, float fontsize, ...);
 	};
-
 }

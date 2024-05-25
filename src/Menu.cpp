@@ -1,6 +1,8 @@
-#include "../pch.h"
-#include "../include/Menu.hpp"
-namespace DX11_Base 
+#include <pch.h>
+#include <Engine.h>
+#include <Menu.h>
+
+namespace DX11Base
 {
 	namespace Styles 
     {
@@ -65,6 +67,45 @@ namespace DX11_Base
             ImGui::Separator();
             ImGui::Spacing();
 
+            static int BytesPerLine{ 4 };
+            static int BytesSpacing{ 2 };
+            static unsigned int MemScanReadSize{ 0x1000 };
+            static unsigned int MemScanStarAddress{ 0x0 };
+            ImGui::InputInt("##MEMSCAN_START", (int*)&MemScanStarAddress, 0, 0, ImGuiInputTextFlags_CharsHexadecimal);
+            ImGui::SameLine();
+            ImGui::InputInt("##MEMSCAN_SIZE", (int*)&MemScanReadSize, 0, 0, ImGuiInputTextFlags_CharsHexadecimal);
+            ImGui::BeginChild("MemoryScanner", ImVec2(ImGui::GetContentRegionAvail().x, 100.f), ImGuiChildFlags_Border);
+            {
+                int pad{ 0 };
+                for (int i = 0; i < MemScanReadSize; i += BytesPerLine)
+                {
+                    static unsigned long long base = reinterpret_cast<unsigned long long>(GetModuleHandle(0));
+                    if (!base)
+                    {
+                        ImGui::Text("Failed to get module base address.");
+                        break;
+                    }
+
+                    ImGui::Text("%p: ", base + i);
+                    ImGui::SameLine();
+                    for (int j = 0; j < BytesPerLine; j++)
+                    {
+                        unsigned long long addr = (base + i + j);
+                        if (addr > 0)
+                            ImGui::Text("0x%02X ", *(unsigned __int8*)addr);
+                        else
+                            ImGui::Text("?? ");
+
+                        ImGui::SameLine();
+                    }
+                    ImGui::NewLine();
+                }
+            }
+            ImGui::EndChild();
+            ImGui::Spacing();
+            ImGui::Separator();
+            ImGui::Spacing();
+
             if (ImGui::Button("UNHOOK DLL", ImVec2(ImGui::GetContentRegionAvail().x, 20))) {
 #if CONSOLE_OUTPUT
                 g_Console->printdbg("\n\n[+] UNHOOK INITIALIZED\n\n", Console::Colors::red);
@@ -72,62 +113,46 @@ namespace DX11_Base
                 g_KillSwitch = TRUE;
             }
         }
-
-#if _DEBUG
-        void TABDebug()
-        {
-            //  Debug Options
-        }
-#endif
 	}
 
+    //----------------------------------------------------------------------------------------------------
+    //										MENU
+    //-----------------------------------------------------------------------------------
 	void Menu::Draw()
 	{
-        if (b_ShowMenu)
+        if (g_Engine->bShowMenu)
             MainMenu();
 
-        if (b_ShowHud && !b_ShowMenu)
+        if (g_Engine->bShowHud && !g_Engine->bShowMenu)
         {
             Styles::SetNavigationMenuViewState(false);
-            HUD(&b_ShowHud);
+            Menu::HUD();
         }
 
-        if (b_ShowDemoWindow && b_ShowMenu)
+        if (g_Engine->bShowDemoWindow && g_Engine->bShowMenu)
             ImGui::ShowDemoWindow();
 
-        if (b_ShowStyleEditor && b_ShowMenu)
+        if (g_Engine->bShowStyleEditor && g_Engine->bShowMenu)
             ImGui::ShowStyleEditor();
 	}
 
 	void Menu::MainMenu()
 	{
-        if (!b_ShowDemoWindow && !b_ShowStyleEditor)
+        if (!g_Engine->bShowDemoWindow && !g_Engine->bShowStyleEditor)
             Styles::BaseStyle();
 
-        if (!ImGui::Begin("(DX11) ImGui Internal Base", &b_ShowMenu, 96))
+        if (!ImGui::Begin("(DX11) ImGui Internal Base", &g_Engine->bShowMenu, 96))
         {
             ImGui::End();
             return;
         }
         
-        //  Display Menu Content
         Tabs::TABMain();
 
-        //  I like to use tabs to display my content in an organized manner, Here is an example on how you could do the same
-        //  As a courtesy I have left the TABS namespace with an Example Tab
-        //if (ImGui::BeginTabBar("##tabs", ImGuiTabBarFlags_None))
-        //{
-        //    if (ImGui::BeginTabItem("MAIN"))
-        //    {
-        //        Tabs::TABMain();
-        //        ImGui::EndTabItem();
-        //    }
-        //    ImGui::EndTabBar();
-        //}
         ImGui::End();
 	}
 
-	void Menu::HUD(bool* p_open)
+	void Menu::HUD()
 	{
         ImVec2 draw_size = g_D3D11Window->pViewport->WorkSize;
         ImVec2 draw_pos = g_D3D11Window->pViewport->WorkSize;
@@ -145,12 +170,9 @@ namespace DX11_Base
         ImGui::PopStyleColor();
         ImGui::PopStyleVar();
 
-        //  Drawinmg Context
         ImDrawList* ImDraw = ImGui::GetWindowDrawList();
         auto center = ImVec2({ draw_size.x * .5f, draw_size.y * .5f });
         auto top_center = ImVec2({ draw_size.x * .5f, draw_size.y * 0.0f });
-
-        //  Watermark
         ImDraw->AddText(top_center, ImColor(1.0f, 1.0f, 1.0f, 1.0f), "https://github.com/NightFyre/DX11-ImGui-Internal-Hook");
 
         ImGui::End();
@@ -160,6 +182,10 @@ namespace DX11_Base
 	{
 
 	}
+
+    //----------------------------------------------------------------------------------------------------
+    //										GUI
+    //-----------------------------------------------------------------------------------
 
     void GUI::TextCentered(const char* pText)
     {

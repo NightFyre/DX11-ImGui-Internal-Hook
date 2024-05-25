@@ -35,4 +35,11 @@
 // MINHOOK
 #include "libs/MinHook/MinHook.h"
 
+
+// DEAR IMGUI
+#include "libs/ImGui/imgui.h"
+#include "libs/ImGui/imgui_internal.h"
+#include "libs/ImGui/imgui_Impl_dx11.h"
+#include "libs/ImGui/imgui_Impl_Win32.h"
+
 #endif //PCH_H

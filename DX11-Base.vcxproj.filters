@@ -33,19 +33,10 @@
     <ClInclude Include="include\helper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Console.hpp">
+    <ClInclude Include="include\Engine.h">
       <Filter>Header Files\Class</Filter>
     </ClInclude>
-    <ClInclude Include="include\D3D11Window.hpp">
-      <Filter>Header Files\Class</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Game.hpp">
-      <Filter>Header Files\Class</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Hooking.hpp">
-      <Filter>Header Files\Class</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Menu.hpp">
+    <ClInclude Include="include\Menu.h">
       <Filter>Header Files\Class</Filter>
     </ClInclude>
     <ClInclude Include="libs\MinHook\buffer.h">
@@ -81,9 +72,6 @@
     <ClInclude Include="libs\MinHook\trampoline.h">
       <Filter>Resource Files\MinHook</Filter>
     </ClInclude>
-    <ClInclude Include="initialize.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -92,16 +80,7 @@
     <ClCompile Include="pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Console.cpp">
-      <Filter>Source Files\Class</Filter>
-    </ClCompile>
-    <ClCompile Include="src\D3D11Window.cpp">
-      <Filter>Source Files\Class</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Game.cpp">
-      <Filter>Source Files\Class</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Hooking.cpp">
+    <ClCompile Include="src\Engine.cpp">
       <Filter>Source Files\Class</Filter>
     </ClCompile>
     <ClCompile Include="src\Menu.cpp">
@@ -146,10 +125,16 @@
     <ClCompile Include="libs\ImGui\imgui.cpp">
       <Filter>Resource Files\ImGui</Filter>
     </ClCompile>
+    <ClCompile Include="Source.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="libs\MinHook\minhook.def">
       <Filter>Resource Files\MinHook</Filter>
+    </None>
+    <None Include="README.md">
+      <Filter>Source Files</Filter>
     </None>
   </ItemGroup>
 </Project>
