@@ -1,13 +1,11 @@
 #pragma once
 #define DEBUG 1
 
-//	External Libraries
-#include "../libs/ImGui/imgui.h"
-#include "../libs/ImGui/imgui_internal.h"
-#include "../libs/ImGui/imgui_Impl_dx11.h"
-#include "../libs/ImGui/imgui_Impl_Win32.h"
+#include "pch.h"
 
-namespace DX11_Base 
+extern DWORD WINAPI MainThread_Initialize(LPVOID dwModule);
+
+namespace DX11Base
 {
 	using namespace std::chrono_literals;
 	inline HMODULE g_hModule{};
